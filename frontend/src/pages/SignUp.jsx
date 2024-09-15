@@ -5,6 +5,9 @@ import Button from "../components/Button";
 import SignElement from "../components/SignElement";
 import axios from 'axios'
 import { useNavigate } from "react-router";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleRadiation } from '@fortawesome/free-solid-svg-icons';
+import { motion } from 'framer-motion';
 
 export default function SignUp(){
 
@@ -16,6 +19,8 @@ export default function SignUp(){
     const [userExistText, setUserExistText] = useState('hidden');
     const [invalidText, setInvalidText] = useState('hidden');
     const [accCreatedText, setAccCreatedText] = useState('hidden');
+    const [isSigning, setIsSigning] = useState(false);
+    const [passText, setPassText] = useState('hidden');
     const navigate = useNavigate();
     
     useEffect(() => {
@@ -25,11 +30,14 @@ export default function SignUp(){
             }
         }else{
             setButtonClick(false);
+            setPassText('hidden');
         }
     },[firstName,lastName,username,password]);
 
     async function caller(){
+        if(password.length > 0 && password.length < 8) setPassText('block');
         if(buttonClick){
+            setPassText('hidden');
             await axios.post('http://localhost:3000/user/signUp',{
                 "firstName": firstName,
                 "lastName": lastName,
@@ -38,17 +46,20 @@ export default function SignUp(){
             }).then((res) => {
                 localStorage.setItem('token','Bearer ' + res.data.token);
                 setAccCreatedText('block');
+                setIsSigning(true);
                 setTimeout(() => {
                     navigate('/Dashboard');
-                },2000)
+                },3000)
             }).catch((err) => {
                 setAccCreatedText('hidden');
                 if(err.status == 409){
+                    setIsSigning(false);
                     setUserExistText('block');
                 }else{
                     setUserExistText('hidden');
                 }
                 if(err.status == 403){
+                    setIsSigning(false);
                     setInvalidText('block');
                 }else{
                     setInvalidText('hidden');
@@ -60,7 +71,16 @@ export default function SignUp(){
 
     return(
         <div className='flex place-content-center bg-black h-screen items-center'>
-            <div className="p-4 flex flex-col gap-2 bg-white place-content-center">
+            <motion.div
+                initial={{y: '-50%', opacity: 0}}
+                animate={{y: 0, opacity: 1}}
+                exit={{y: '-50%', opacity:0}}
+                transition={{type: 'spring', delay: 0.2, duration: 1}}
+                className="p-4 flex flex-col gap-2 bg-white place-content-center"
+                style={{
+                    boxShadow: "0 0 3px 2px #cec7c759"
+                }}    
+            >
                 <Heading text={"Sign Up"} />
                 <p className="w-80 text-gray-400 font-bold text-center text-md">Enter your information to create an account</p>
                 <p className={`text-center text-green-500 font-semibold text-lg ${accCreatedText}`}>Account created successfully!!</p>
@@ -70,11 +90,24 @@ export default function SignUp(){
                     <LabelInput onChange={e => setUsername(e.target.value)} idName={"username"} labelName={"Username"} placeholderName={"JohnDoe123"} inputType={"text"} />
                     <p className={`text-red-600 ${userExistText}`}>*Username exists</p>
                     <LabelInput onChange={e => setPassword(e.target.value)} idName={"password"} labelName={"Password"} placeholderName={"123456"} inputType={"password"} />
-                    <Button caller={caller} buttonText={"Sign Up"} />
-                    <p className={`text-center text-red-600 font-semibold ${invalidText}`}>Invalid Inputs</p>
+                    {isSigning ? signing({faCircleRadiation}) : signIn({caller})}
+                    <p className={`text-center text-red-600 font-semibold ${invalidText}`}>*Invalid Inputs</p>
+                    <p className={`text-center text-red-600 font-semibold ${passText}`}>*Password should be atleast 9 digits</p>
                 </form>
                 <SignElement pText={"Already have an account?"} buttonText={"Sign In"} to={"/"} />
-            </div>
+            </motion.div>
         </div>
+    )
+}
+
+function signing({faCircleRadiation}){
+    return(
+        <Button hover=" " buttonText={<span className="text-gray-300">Signing up... <FontAwesomeIcon color="light-gray" icon={faCircleRadiation} spin /></span>}/>
+    )
+}
+
+function signIn({caller}){
+    return(
+        <Button caller={caller} buttonText={"Sign Up"}/>
     )
 }

@@ -38,7 +38,7 @@ router.post('/transfer',authMiddleware , async (req,res) => {
         if(!Account){
             await session.abortTransaction();
             session.endSession();
-            return req.status(400).send('Invalid account'); 
+            return req.status(400).send('Invalid account');
         }
 
         const toAccount = await account.findOne({userId: body.to}).session(session);
@@ -65,14 +65,25 @@ router.post('/transfer',authMiddleware , async (req,res) => {
                 balance: body.amount
             }
         }).session(session);
-        
-        console.log(toAccount.firstName);
+
+        const sender = await user.findOne({_id: req.userId});
+        const receiver = await user.findOne({_id: body.to});
+
+        await user.updateOne({_id: body.to},{
+            $push:{
+                transactionHistory: {
+                    receivedFrom: sender.firstName,
+                    amount: body.amount,
+                    date: date
+                }
+            }
+        })
 
         await user.updateOne({_id: req.userId},{
             $push: {
                 transactionHistory: {
-                    sendTo: body.to,
-                    amount: body.amount,
+                    sendTo: receiver.firstName,
+                    amount: -body.amount,
                     date: date
                 }
             }
