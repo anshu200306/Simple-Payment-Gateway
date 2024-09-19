@@ -66,13 +66,15 @@ export default function Dashboard(){
         setSideBar('hidden');
     }
 
+    let i = 1;
+
     return(
         <div style={{
                 backgroundImage: "url('https://plus.unsplash.com/premium_photo-1667575290693-947d839451e8?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')" ,
                 backgroundPosition: 'center',
                 backgroundSize: 'fit',
                 backgroundRepeat: 'no-repeat'
-            }} className="relative min-h-screen">
+            }} className="relative min-h-screen overflow-hidden">
             <div className={`absolute h-full w-full z-50 border-white flex place-content-center items-center ${colorHide}`}>
                 <div className={`flex fixed place-content-center items-center justify-around w-9/12 h-14 rounded-full bg-black p-6 text-white`}>
                     <div onClick={() => colorChange(yellow)} className={`w-8 h-8 rounded-full ${yellow} cursor-pointer hover:scale-105 transition border-2 border-white`}></div>
@@ -84,11 +86,12 @@ export default function Dashboard(){
                 </div>
             </div>
             <HeaderBar userName={userName} uiClick={uiClick} bgURL={bgURL} headingColor="white" navTextColor="gray-200"/>
-            <div className={`flex flex-col p-4 px-6 gap-4 ${bodyOpacity}`}>
-                <h1 className="font-bold text-xl mt-20 hover:underline cursor-pointer w-fit text-gray-100">Your Balance: Rs {balance}</h1>
-                <div className="flex flex-col gap-2">
+            <div className={`h-screen flex flex-col p-2 gap-4 ${bodyOpacity}`}>
+                <h1 className="font-bold text-xl mt-24 px-4 hover:underline cursor-pointer w-fit text-gray-100">Your Balance: Rs {balance}</h1>
+                <div className="flex flex-col gap-2 px-4">
                     <LabelInput onChange={(e) => setSearch(e.target.value)} idName={"searchUsers"} inputType={"text"} labelName={"Users:"} placeholderName={"Search users..."} color="text-gray-100" />
                 </div>
+<<<<<<< HEAD
                 <div className="flex flex-col px-4">
                     {users.map((data) => {
                         if(!(data.firstName == userName)){
@@ -100,6 +103,32 @@ export default function Dashboard(){
                         } 
                     })}
                 </div>
+=======
+                <motion.div
+                    className="flex flex-col w-full px-5 overflow-x-hidden overflow-y-scroll">
+                        {users.map((data) => {
+                            if(!(data.firstName == userName)){
+                                return(
+                                    <motion.div
+                                        initial={{ opacity: 0 , scale: 0.5 }}
+                                        animate={{ opacity: 1 , scale: 1 }}
+                                        exit={{ opacity: 0 , scale: 0.5 }}
+                                        transition={{ type: 'spring', delay: 0.15 * i++}}
+                                    >
+                                        <motion.div
+                                            whileHover={{ scale: 1.05 }}
+                                            whileTap={{ scale: 1 }}            
+                                            style={{ x: 0 }}
+                                            transition={{ type: 'spring' }}
+                                        >
+                                            <UserComp key={data._id} userName={data.firstName} lastName={data.lastName} userId={data._id} uiColor={uiColorChange} />
+                                        </motion.div>
+                                    </motion.div>
+                                )  
+                            } 
+                        })}
+                </motion.div>
+>>>>>>> b61575f1f44c9018527328ac8c72e32c33d9a731
             </div>
         </div>
     )
