@@ -31,7 +31,7 @@ export default function SignIn(){
     },[username,password]);
 
     useEffect(() => {
-        axios.get('http://localhost:3000/user/bulk',{
+        axios.get('http://localhost:4000/user/bulk',{
             headers: {
                 authorization: localStorage.getItem('token')
             }
@@ -48,7 +48,7 @@ export default function SignIn(){
         if(buttonClick){
             setNotExistText('');
             setPassIncorrect('hidden');
-            await axios.post('http://localhost:3000/user/signIn',{
+            await axios.post('http://localhost:4000/user/signIn',{
                 username,
                 password
             }).then((res) => {
