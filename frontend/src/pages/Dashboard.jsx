@@ -86,13 +86,13 @@ export default function Dashboard(){
                 </div>
             </div>
             <HeaderBar userName={userName} uiClick={uiClick} bgURL={bgURL} headingColor="white" navTextColor="gray-200"/>
-            <div className={`flex flex-col p-4 px-6 gap-4 ${bodyOpacity}`}>
-                <h1 className="font-bold text-xl mt-20 hover:underline cursor-pointer w-fit text-gray-100">Your Balance: Rs {balance}</h1>
-                <div className="flex flex-col gap-2">
+            <div className={`h-screen flex flex-col p-2 gap-4 ${bodyOpacity}`}>
+                <h1 className="font-bold text-xl mt-24 px-4 hover:underline cursor-pointer w-fit text-gray-100">Your Balance: Rs {balance}</h1>
+                <div className="flex flex-col gap-2 px-4">
                     <LabelInput onChange={(e) => setSearch(e.target.value)} idName={"searchUsers"} inputType={"text"} labelName={"Users:"} placeholderName={"Search users..."} color="text-gray-100" />
                 </div>
                 <motion.div
-                    className="flex flex-col px-2 overflow-y-visible">
+                    className="flex flex-col w-full px-5 overflow-x-hidden overflow-y-scroll">
                         {users.map((data) => {
                             if(!(data.firstName == userName)){
                                 return(

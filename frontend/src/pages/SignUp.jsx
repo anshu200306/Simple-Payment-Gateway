@@ -8,6 +8,7 @@ import { useNavigate } from "react-router";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleRadiation } from '@fortawesome/free-solid-svg-icons';
 import { motion } from 'framer-motion';
+import Signing from "../components/signing";
 
 export default function SignUp(){
 
@@ -18,9 +19,12 @@ export default function SignUp(){
     const [buttonClick, setButtonClick] = useState(false);
     const [userExistText, setUserExistText] = useState('hidden');
     const [invalidText, setInvalidText] = useState('hidden');
-    const [accCreatedText, setAccCreatedText] = useState('hidden');
     const [isSigning, setIsSigning] = useState(false);
     const [passText, setPassText] = useState('hidden');
+    const [isVisible, setIsVisible] = useState(false);
+    const [isSpin, setIsSpin] = useState(true);
+    const [iconName, setIconName] = useState(false);
+    const [signText, setSignText] = useState('Creating account...');
     const navigate = useNavigate();
     
     useEffect(() => {
@@ -45,13 +49,17 @@ export default function SignUp(){
                 "password": password
             }).then((res) => {
                 localStorage.setItem('token','Bearer ' + res.data.token);
-                setAccCreatedText('block');
                 setIsSigning(true);
+                setIsVisible(true);
+                setTimeout(() => {
+                    setIconName(true);
+                    setIsSpin(false);
+                    setSignText('Account created')
+                },2000);
                 setTimeout(() => {
                     navigate('/Dashboard');
                 },3000)
             }).catch((err) => {
-                setAccCreatedText('hidden');
                 if(err.status == 409){
                     setIsSigning(false);
                     setUserExistText('block');
@@ -83,7 +91,7 @@ export default function SignUp(){
             >
                 <Heading text={"Sign Up"} />
                 <p className="w-80 text-gray-400 font-bold text-center text-md">Enter your information to create an account</p>
-                <p className={`text-center text-green-500 font-semibold text-lg ${accCreatedText}`}>Account created successfully!!</p>
+                {/* <p className={`text-center text-green-500 font-semibold text-lg ${accCreatedText}`}>Account created successfully!!</p> */}
                 <form className="flex flex-col p-3 gap-2" onSubmit={(e) => e.preventDefault()} >
                     <LabelInput onChange={e => setFirstName(e.target.value)} idName={"firstName"} labelName={"First name"} placeholderName={"John"} inputType={"text"} />
                     <LabelInput onChange={e => setLastName(e.target.value)} idName={"lastName"} labelName={"Last name"} placeholderName={"Doe"} inputType={"text"} />
@@ -96,6 +104,7 @@ export default function SignUp(){
                 </form>
                 <SignElement pText={"Already have an account?"} buttonText={"Sign In"} to={"/"} />
             </motion.div>
+            <Signing isVisible={isVisible} iconName={iconName} isSpin={isSpin} signText={signText} />
         </div>
     )
 }
