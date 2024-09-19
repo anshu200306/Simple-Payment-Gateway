@@ -21,7 +21,7 @@ export default function Dashboard(){
     const bgURL = 'https://plus.unsplash.com/premium_photo-1667575290693-947d839451e8?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
 
     useEffect(() => {
-        axios.get('http://localhost:3000/user/bulk?filter=' + search ,{
+        axios.get('http://localhost:4000/user/bulk?filter=' + search ,{
             headers: {
                 authorization: localStorage.getItem('token')
             }
@@ -37,7 +37,7 @@ export default function Dashboard(){
     },[search])
 
     useEffect(() => {
-        axios.get('http://localhost:3000/account/balance',{
+        axios.get('http://localhost:4000/account/balance',{
             headers: {
                 authorization: localStorage.getItem('token')
             }

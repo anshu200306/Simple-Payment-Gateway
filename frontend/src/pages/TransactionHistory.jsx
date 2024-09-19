@@ -12,7 +12,7 @@ export default function TransactionHistory(){
     const [transferInfo, setTransferInfo] = useState([]);
 
     useEffect(() => {
-        axios.get('http://localhost:3000/user/transactionHistory',{
+        axios.get('http://localhost:4000/user/transactionHistory',{
             headers: {
                 authorization: localStorage.getItem('token')
             }

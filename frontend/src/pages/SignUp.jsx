@@ -30,7 +30,7 @@ export default function SignUp(){
 
     async function caller(){
         if(buttonClick){
-            await axios.post('http://localhost:3000/user/signUp',{
+            await axios.post('http://localhost:4000/user/signUp',{
                 "firstName": firstName,
                 "lastName": lastName,
                 "username": username,
