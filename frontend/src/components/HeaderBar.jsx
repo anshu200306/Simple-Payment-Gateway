@@ -30,7 +30,7 @@ export default function HeaderBar({userName, uiClick,bgURL, headingColor='black'
                 backgroundSize: 'cover',
                 backgroundRepeat: 'no-repeat'
                 }} className="fixed top-0 w-full bg-white flex justify-between px-6 py-6 z-10">
-                <Heading text={<span onClick={() => navigate('/Dashboard')} className={`text-${headingColor} cursor-pointer`}>Payments <span className="text-red-600 underline">App</span></span>} />
+                <Heading text={<span onClick={() => navigate('/Dashboard')} className={`text-${headingColor} cursor-pointer`}>Zen<span className="text-red-600 underline">Pay</span></span>} />
                 <div className="flex gap-4 place-content-center items-center h-full">
                     <p className={`font-semibold text-${navTextColor}`}>Hello, {userName}</p>
                     <button onClick={() => {
