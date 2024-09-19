@@ -18,7 +18,7 @@ export default function UserComp({userName,userId,lastName,uiColor}){
     }
 
     return(
-        <div className="flex justify-between place-content-center items-center rounded-xl transition hover:bg-opacity-40 hover:bg-gray-900 p-2 hover:scale-105">
+        <div className="flex justify-between place-content-center items-center rounded-xl transition hover:bg-opacity-40 hover:bg-gray-900 p-3 hover:scale-105">
             <div className="flex place-content-center items-center gap-4">
                 <p className={`w-10 h-10 rounded-full ${uiColor} shadow-md flex place-content-center items-center`}>{userName[0]}</p>
                 <h1 className="font-bold text-xl text-gray-100">{userName} {lastName}</h1>

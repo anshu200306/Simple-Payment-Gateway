@@ -89,7 +89,7 @@ export default function Dashboard(){
                 <div className="flex flex-col gap-2">
                     <LabelInput onChange={(e) => setSearch(e.target.value)} idName={"searchUsers"} inputType={"text"} labelName={"Users:"} placeholderName={"Search users..."} color="text-gray-100" />
                 </div>
-                <div className="flex flex-col px-2">
+                <div className="flex flex-col px-4">
                     {users.map((data) => {
                         if(!(data.firstName == userName)){
                             return(
